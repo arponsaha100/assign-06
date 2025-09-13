@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Green Earth — Plant a Tree</title>
+
+  <!-- Tailwind Play CDN for styling -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    /* Custom tweaks for card and spinner */
+    .card-ghost { background: #f8fff6; }
+    #spinner-overlay { transition: opacity .15s ease; }
+  </style>
+</head>
+<body class="bg-emerald-50 text-gray-800">
+
+  <!-- NAVBAR -->
+  <header class="bg-emerald-800 text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
+      <div class="flex items-center gap-4">
+        <div class="text-lg font-bold">🌿 Green Earth</div>
+      </div>
+      <nav class="hidden md:flex items-center gap-8">
+        <a href="#about" class="hover:underline">About</a>
+        <a href="#gallery" class="hover:underline">Gallery</a>
+        <a href="#plant" class="hover:underline">Plant a Tree</a>
+      </nav>
+      <div>
+        <button id="plant-top-btn" class="bg-yellow-400 text-emerald-900 px-4 py-2 rounded-md font-semibold">Plant a Tree</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- BANNER -->
+  <section class="py-20">
+    <div class="max-w-4xl mx-auto text-center bg-white/30  rounded-xl p-10">
+      <h1 class="text-3xl md:text-5xl font-extrabold text-emerald-900">Plant a Tree, Grow a Future</h1>
+      <p class="mt-4 text-emerald-800/80 max-w-2xl mx-auto">
+        Join our mission to plant 1 million trees and make the Earth greener for future generations.
+      </p>
+      <button id="banner-cta" class="mt-6 bg-yellow-400 text-emerald-900 px-6 py-3 rounded-full font-semibold shadow">
+        Get Involved
+      </button>
+    </div>
+  </section>
+
+  <!-- MAIN CONTENT -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10">
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+
+      <!-- CATEGORIES SIDEBAR -->
+      <aside class="md:col-span-3 bg-white p-4 rounded-lg shadow sticky top-6 h-fit">
+        <h2 class="font-bold text-lg mb-3">Categories</h2>
+        <div id="categories" class="flex flex-col gap-2"></div>
+      </aside>
+
+      <!-- PLANTS GRID -->
+      <section class="md:col-span-6">
+        <h2 class="text-center text-xl font-bold mb-6">Choose Your Trees</h2>
+        <!-- Spinner for loading state -->
+        <div id="spinner-overlay" class="hidden fixed inset-0 bg-black/30 z-40 flex items-center justify-center">
+          <div class="bg-white p-6 rounded-lg flex items-center gap-4">
+            <svg class="animate-spin h-8 w-8" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+            </svg>
+            <span>Loading...</span>
+          </div>
+        </div>
+        <div id="plants-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+      </section>
+
+      <!-- CART SIDEBAR -->
+      <aside class="md:col-span-3 bg-white p-4 rounded-lg shadow h-fit">
+        <h2 class="font-bold text-lg mb-3">Your Cart</h2>
+        <ul id="cart-list" class="space-y-2 max-h-64 overflow-auto"></ul>
+        <div class="mt-4 border-t pt-3">
+          <div class="flex justify-between items-center">
+            <span class="font-semibold">Total:</span>
+            <span class="text-emerald-800 font-bold text-lg">$<span id="cart-total">0.00</span></span>
+          </div>
+          <div class="mt-3">
+            <button id="checkout-btn" class="w-full bg-emerald-700 text-white py-2 rounded-md">Checkout</button>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- ABOUT SECTION -->
+    <section id="about" class="mt-12 bg-white p-6 rounded-lg shadow grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+      <div class="md:col-span-1">
+        <img src="https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=800&q=60" alt="plant" class="rounded-lg w-full object-cover" />
+      </div>
+      <div class="md:col-span-2">
+        <h3 class="text-2xl font-bold mb-3">About the Campaign</h3>
+        <p class="mb-3">
+          Green Earth is a global tree plantation initiative dedicated to fighting climate change. Since our start, we've planted thousands of trees and helped restore local habitats.
+        </p>
+        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700">
+          <li>Restoration of natural habitats</li>
+          <li>Improvement of air quality</li>
+          <li>Support for local communities</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- IMPACT SECTION -->
+    <section class="mt-8 py-8">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-emerald-100 p-6 rounded-lg text-center">
+          <div class="text-2xl font-bold">500K+</div>
+          <div class="text-sm text-gray-700">Trees Planted</div>
+        </div>
+        <div class="bg-emerald-100 p-6 rounded-lg text-center">
+          <div class="text-2xl font-bold">120+</div>
+          <div class="text-sm text-gray-700">Communities Involved</div>
+        </div>
+        <div class="bg-emerald-100 p-6 rounded-lg text-center">
+          <div class="text-2xl font-bold">30+</div>
+          <div class="text-sm text-gray-700">Countries Reached</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DONATION FORM -->
+    <section id="plant" class="mt-8 bg-emerald-800 text-white py-12 rounded-lg">
+      <div class="max-w-xl mx-auto px-4">
+        <h3 class="text-center text-2xl font-bold mb-4">Plant a Tree Today</h3>
+        <form id="donate-form" class="space-y-3">
+          <input required name="name" placeholder="Your Name" class="w-full p-3 rounded text-emerald-900" />
+          <input required type="email" name="email" placeholder="Your Email Address" class="w-full p-3 rounded text-emerald-900" />
+          <select required name="count" class="w-full p-3 rounded text-emerald-900">
+            <option value="">Number of Trees</option>
+            <option value="1">1</option>
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="25">25</option>
+          </select>
+          <button type="submit" class="w-full bg-yellow-400 text-emerald-900 py-3 rounded font-semibold">Donate Now</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="mt-6 text-center text-sm text-gray-600 mb-8">
+      © 2025 Green Earth. All Rights Reserved.
+    </footer>
+  </main>
+
+  <!-- MODAL FOR PLANT DETAILS -->
+  <div id="modal" class="fixed inset-0 bg-black/50 hidden z-50 items-center justify-center">
+    <div class="bg-white rounded-lg p-6 max-w-2xl w-full relative">
+      <button id="modal-close" class="absolute right-3 top-3 text-gray-600">✖</button>
+      <div id="modal-body"></div>
+    </div>
+  </div>
+
+  <!-- MAIN SCRIPT -->
+  <script>
+    // API endpoints for fetching data
+    const API = {
+      ALL_PLANTS: 'https://openapi.programming-hero.com/api/plants',
+      CATEGORIES: 'https://openapi.programming-hero.com/api/categories',
+      CATEGORY_BY_ID: (id) => `https://openapi.programming-hero.com/api/category/${id}`,
+      PLANT_DETAIL: (id) => `https://openapi.programming-hero.com/api/plant/${id}`
+    };
+
+    // DOM elements
+    const categoriesEl = document.getElementById('categories');
+    const plantsGrid = document.getElementById('plants-grid');
+    const spinner = document.getElementById('spinner-overlay');
+    const cartListEl = document.getElementById('cart-list');
+    const cartTotalEl = document.getElementById('cart-total');
+    const modal = document.getElementById('modal');
+    const modalBody = document.getElementById('modal-body');
+    const modalClose = document.getElementById('modal-close');
+    const bannerCta = document.getElementById('banner-cta');
+    const plantTopBtn = document.getElementById('plant-top-btn');
+
+    // App state
+    let categories = [];
+    let activeCategoryId = null;
+    let cart = [];
+    let total = 0;
+
+    // Show/hide spinner
+    function showSpinner() { spinner.classList.remove('hidden'); }
+    function hideSpinner() { spinner.classList.add('hidden'); }
+
+    // Safe fetch utility
+    async function safeFetchJson(url) {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return await res.json();
+    }
+
+    // Load categories from API
+    async function loadCategories() {
+      try {
+        showSpinner();
+        const json = await safeFetchJson(API.CATEGORIES);
+        categories = json.data?.categories || json.categories || json.data || [];
+        if (!Array.isArray(categories)) categories = Object.values(categories);
+        renderCategories();
+      } catch (err) {
+        console.error('Failed to load categories', err);
+        categoriesEl.innerHTML = '<div class="text-red-600">Failed to load categories</div>';
+      } finally {
+        hideSpinner();
+      }
+    }
+
+    // Render category buttons
+    function renderCategories() {
+      categoriesEl.innerHTML = '';
+      // "All Trees" button
+      const allBtn = document.createElement('button');
+      allBtn.innerText = 'All Trees';
+      allBtn.className = categoryBtnClass(true);
+      allBtn.onclick = () => { setActiveCategory(null); loadAllPlants(); };
+      categoriesEl.appendChild(allBtn);
+
+      categories.forEach(cat => {
+        const id = cat.id ?? cat.category_id ?? cat._id ?? cat.category_id;
+        const label = cat.category || cat.name || cat.category_name || cat;
+        const btn = document.createElement('button');
+        btn.innerText = label;
+        btn.dataset.catId = id;
+        btn.className = categoryBtnClass(false);
+        btn.onclick = () => {
+          setActiveCategory(id);
+          loadPlantsByCategory(id, btn);
+        };
+        categoriesEl.appendChild(btn);
+      });
+    }
+
+    function categoryBtnClass(isAll) {
+      return "text-left px-3 py-2 rounded-md hover:bg-emerald-50 border border-emerald-100 text-sm";
+    }
+
+    function setActiveCategory(id) {
+      activeCategoryId = id;
+      Array.from(categoriesEl.querySelectorAll('button')).forEach(btn => {
+        const bid = btn.dataset.catId ?? null;
+        if ((id === null && btn.innerText === 'All Trees') || (bid && String(bid) === String(id))) {
+          btn.classList.add('bg-emerald-200', 'font-semibold');
+        } else {
+          btn.classList.remove('bg-emerald-200', 'font-semibold');
+        }
+      });
+    }
+
+    // Load all plants
+    async function loadAllPlants() {
+      try {
+        showSpinner();
+        const json = await safeFetchJson(API.ALL_PLANTS);
+        const plants = json.data?.plants || json.plants || json.data || [];
+        renderPlantsArray(plants);
+      } catch (err) {
+        console.error('Failed to load plants', err);
+        plantsGrid.innerHTML = '<div class="col-span-full text-red-600">Failed to load plants.</div>';
+      } finally {
+        hideSpinner();
+      }
+    }
+
+    // Load plants by category
+    async function loadPlantsByCategory(id) {
+      try {
+        showSpinner();
+        const json = await safeFetchJson(API.CATEGORY_BY_ID(id));
+        const plants = json.data?.plants || json.plants || json.data || [];
+        renderPlantsArray(plants);
+      } catch (err) {
+        console.error('Failed to load plants by category', err);
+        plantsGrid.innerHTML = '<div class="col-span-full text-red-600">Failed to load plants for this category.</div>';
+      } finally {
+        hideSpinner();
+      }
+    }
+
+    // Render plant cards
+    function renderPlantsArray(plants) {
+      plantsGrid.innerHTML = '';
+      if (!plants || plants.length === 0) {
+        plantsGrid.innerHTML = '<div class="col-span-full text-center text-gray-600">No plants found.</div>';
+        return;
+      }
+      plants.forEach(p => {
+        const id = p.id ?? p._id ?? p.plant_id ?? p.slug ?? p.name;
+        const name = p.name ?? p.plant_name ?? 'Unknown Plant';
+        const shortDesc = p.short_description ?? p.description?.slice(0, 100) ?? 'No description available.';
+        const category = p.category ?? p.category_name ?? (p.categories ? p.categories.join(', ') : 'Uncategorized');
+        let price = parseFloat(p.price);
+        if (Number.isNaN(price)) price = parseFloat(p.price_usd) || (Math.floor(Math.random() * 200) + 10);
+        const image = p.image ?? p.image_url ?? p.thumbnail ?? 'https://via.placeholder.com/400x300?text=No+Image';
+
+        const card = document.createElement('article');
+        card.className = 'bg-white rounded-lg shadow p-4 flex flex-col';
+        card.innerHTML = `
+          <div class="h-40 w-full overflow-hidden rounded mb-3">
+            <img src="${image}" alt="${escapeHtml(name)}" class="w-full h-full object-cover">
+          </div>
+          <h3 class="text-lg font-semibold text-emerald-800 cursor-pointer card-title" data-id="${id}">${escapeHtml(name)}</h3>
+          <p class="text-sm text-gray-600 flex-grow mt-2">${escapeHtml(shortDesc)}</p>
+          <div class="mt-3 flex items-center justify-between">
+            <div class="text-xs text-gray-500">${escapeHtml(category)}</div>
+            <div class="font-bold text-emerald-900">$${price.toFixed(2)}</div>
+          </div>
+          <button class="mt-3 add-cart-btn bg-emerald-700 text-white py-2 rounded-md">Add to Cart</button>
+        `;
+        plantsGrid.appendChild(card);
+
+        card.querySelector('.card-title').addEventListener('click', () => openPlantModal(id));
+        card.querySelector('.add-cart-btn').addEventListener('click', () => addToCart({ id, name, price }));
+      });
+    }
+
+    // Modal for plant details
+    async function openPlantModal(id) {
+      try {
+        showSpinner();
+        const json = await safeFetchJson(API.PLANT_DETAIL(id));
+        const plant = json.data?.plant || json.plant || json.data || {};
+        const name = plant.name ?? plant.plant_name ?? 'Unknown';
+        const image = plant.image ?? plant.image_url ?? plant.thumbnail ?? 'https://via.placeholder.com/800x400?text=No+Image';
+        const desc = plant.description ?? plant.long_description ?? plant.details ?? 'No further details available.';
+        const price = parseFloat(plant.price) || parseFloat(plant.price_usd) || (Math.floor(Math.random() * 200) + 10);
+
+        modalBody.innerHTML = `
+          <div class="grid md:grid-cols-2 gap-4">
+            <div><img src="${image}" alt="${escapeHtml(name)}" class="w-full h-56 object-cover rounded"/></div>
+            <div>
+              <h3 class="text-2xl font-bold mb-2">${escapeHtml(name)}</h3>
+              <p class="text-sm text-gray-700 mb-3">${escapeHtml(desc)}</p>
+              <div class="font-semibold text-emerald-900 text-lg">Price: $${price.toFixed(2)}</div>
+              <div class="mt-4">
+                <button id="modal-add-cart" class="bg-emerald-700 text-white px-4 py-2 rounded-md">Add to Cart</button>
+              </div>
+            </div>
+          </div>
+        `;
+        document.getElementById('modal-add-cart').addEventListener('click', () => {
+          addToCart({ id, name, price });
+          closeModal();
+        });
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      } catch (err) {
+        console.error('Failed to fetch plant details', err);
+        alert('Failed to load plant details.');
+      } finally {
+        hideSpinner();
+      }
+    }
+
+    function closeModal() {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      modalBody.innerHTML = '';
+    }
+    modalClose.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+
+    // Cart logic
+    function addToCart(item) {
+      if (!item || !item.id) return;
+      cart.push(item);
+      recalcTotal();
+      renderCart();
+    }
+
+    function removeFromCart(index) {
+      if (index < 0 || index >= cart.length) return;
+      cart.splice(index, 1);
+      recalcTotal();
+      renderCart();
+    }
+
+    function recalcTotal() {
+      total = cart.reduce((s, it) => s + (parseFloat(it.price) || 0), 0);
+      cartTotalEl.innerText = total.toFixed(2);
+    }
+
+    function renderCart() {
+      cartListEl.innerHTML = '';
+      if (cart.length === 0) {
+        cartListEl.innerHTML = '<li class="text-sm text-gray-500">Cart is empty</li>';
+        return;
+      }
+      cart.forEach((it, idx) => {
+        const li = document.createElement('li');
+        li.className = 'flex items-center justify-between bg-emerald-50 p-2 rounded';
+        li.innerHTML = `
+          <div class="text-sm">
+            <div class="font-medium">${escapeHtml(it.name)}</div>
+            <div class="text-xs text-gray-600">$${(parseFloat(it.price)||0).toFixed(2)}</div>
+          </div>
+          <div>
+            <button class="text-red-600 remove-btn">❌</button>
+          </div>
+        `;
+        li.querySelector('.remove-btn').addEventListener('click', () => removeFromCart(idx));
+        cartListEl.appendChild(li);
+      });
+    }
+
+    // Escape HTML utility
+    function escapeHtml(s) {
+      if (!s) return '';
+      return String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;');
+    }
+
+    // Donation form submit
+    document.getElementById('donate-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      const name = fd.get('name'), email = fd.get('email'), count = fd.get('count');
+      if (!name || !email || !count) return alert('Please complete the form.');
+      alert(`Thanks ${name}! Your donation for ${count} tree(s) has been received (simulated).`);
+      e.target.reset();
+    });
+
+    // Smooth scroll for CTA buttons
+    bannerCta.addEventListener('click', () => {
+      document.getElementById('plant').scrollIntoView({behavior:'smooth'});
+    });
+    plantTopBtn.addEventListener('click', () => {
+      document.getElementById('plant').scrollIntoView({behavior:'smooth'});
+    });
+
+    // Initial load
+    (async function init(){
+      await loadCategories();
+      setActiveCategory(null);
+      await loadAllPlants();
+      renderCart();
+    })();
+
+    // Checkout button
+    document.getElementById('checkout-btn').addEventListener('click', () => {
+      if (cart.length === 0) return alert('Your cart is empty.');
+      alert(`Checked out ${cart.length} item(s). Total: $${total.toFixed(2)} (simulated).`);
+      cart = [];
+      recalcTotal();
+      renderCart();
+    });
+
+  </script>
+</body>
+</html>
